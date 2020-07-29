@@ -12,23 +12,25 @@
       >
         <el-form-item label="佣金返利规则" prop="content">
           <div class="sellpage-upload">
-            <div class="filelist-item">
+            <template v-for="(item ,index) in showlist">
+              <div class="filelist-item" :key="index">
+                <img :src="item" alt />
+                <div class="i-wrap">
+                  <i class="el-icon-delete"></i>
+                  <i class="el-icon-top" @click="moveup(item)"></i>
+                  <i class="el-icon-bottom" @click="movedown(item)"></i>
+                </div>
+              </div>
+            </template>
+
+            <!-- <div class="filelist-item">
               <img src="../../../../public/static/images/tuiguang1.png" alt />
               <div class="i-wrap">
                 <i class="el-icon-delete"></i>
                 <i class="el-icon-top"></i>
                 <i class="el-icon-bottom"></i>
               </div>
-            </div>
-
-            <div class="filelist-item">
-              <img src="../../../../public/static/images/tuiguang2.png" alt />
-              <div class="i-wrap">
-                <i class="el-icon-delete"></i>
-                <i class="el-icon-top"></i>
-                <i class="el-icon-bottom"></i>
-              </div>
-            </div>
+            </div>-->
           </div>
         </el-form-item>
 
@@ -92,6 +94,17 @@ export default {
     return {
       dialogVisible: false,
 
+      // 展示列表
+      showlist: [
+        require("../../../../public/static/images/tuiguang1.png"),
+        require("../../../../public/static/images/tuiguang2.png"),
+        require("../../../../public/static/images/tuiguang3.png"),
+        require("../../../../public/static/images/tuiguang4.png")
+        // "../../../../public/static/images/tuiguang1.png",
+        // "../../../../public/static/images/tuiguang1.png"
+      ],
+
+      // 上传列表
       fileList: [
         // {
         //   name: "food.jpeg",
@@ -105,6 +118,7 @@ export default {
         // }
       ],
 
+      // 添加数据
       ruleForm: {
         // 富文本内容
         content: "",
@@ -121,11 +135,47 @@ export default {
     };
   },
   methods: {
+    // 点击上移按钮
+    moveup(item) {
+      // console.log(this.showlist.indexOf(item));
+      let num = this.showlist.indexOf(item);
+      if (num > 0) {
+        for (var i = 0; i < this.showlist.length; i++) {
+          if (this.showlist[i] == item) {
+            // console.log(this.showlist[i])
+            this.showlist.splice(i, 1);
+          }
+        }
+        // this.showlist.push(item);
+        this.showlist.splice(num - 1, 0, item);
+      } else {
+        // console.log("top");
+      }
+    },
+    // 点击下移按钮
+    movedown(item) {
+      // console.log(this.showlist.indexOf(item));
+      let num = this.showlist.indexOf(item);
+      if (num < this.showlist.length) {
+        for (var i = 0; i < this.showlist.length; i++) {
+          if (this.showlist[i] == item) {
+            // console.log(this.showlist[i])
+            this.showlist.splice(i, 1);
+          }
+        }
+        // this.showlist.push(item);
+        this.showlist.splice(num + 1, 0, item);
+      } else {
+        // console.log('bottom')
+      }
+    },
+
     // 点击添加图片或视频按钮
     addpic() {
       this.dialogVisible = true;
     },
 
+    // 添加图片或视频确定按钮
     addsure() {
       // this.dialogVisible = false;
       this.$refs.ruleForm1.validate(valid => {
@@ -138,9 +188,11 @@ export default {
       });
     },
 
+    // 移除上传图片或视频
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
+    // 上传图片或视频
     handleChange(file, fileList) {
       console.log(file, fileList);
       this.ruleForm.fileList = file.raw;
@@ -163,7 +215,8 @@ export default {
       this.dialogVisible = false;
       this.$refs[formName].resetFields();
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 

@@ -114,19 +114,20 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route);
-    window.onbeforeunload = function(e) {
-      var message = "some word";
-      e = e || window.event;
-      if (e) {
-        e.returnValue = message;
-        this.sessionStorage.setItem("moren", {
-          name: this.$route.meta.title,
-          path: this.$route.path
-        });
-      }
-      //   return "浏览器关闭！";
-    };
+    // console.log(this.$route);
+    // 监听浏览器刷新
+    // window.onbeforeunload = function(e) {
+    //   var message = "some word";
+    //   e = e || window.event;
+    //   if (e) {
+    //     e.returnValue = message;
+    //     this.sessionStorage.setItem("moren", {
+    //       name: this.$route.meta.title,
+    //       path: this.$route.path
+    //     });
+    //   }
+    //   //   return "浏览器关闭！";
+    // };
     // if (this.sessionStorage.getItem("moren")) {
     //   this.a = this.sessionStorage.getItem("moren");
     // }
